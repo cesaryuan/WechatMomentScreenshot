@@ -1,14 +1,32 @@
 body {
-    margin: 0 0;
+    margin: 0px 0;
     overflow-x: hidden;
+}
+
+@media screen and (max-width: 700px) {
+    #fakeWechatMoment {
+        background-color: #fff;
+        display: block;
+        font-family: 'Noto Sans SC','Roboto', sans-serif, sans-serif;
+        position: fixed;
+        left: 100%;
+        top: 0;
+    }
+    .editor{
+        width: 100%;
+    }
+
+    .preview{
+        width: 0%;
+    }
 }
 
 #fakeWechatMoment {
     background-color: #fff;
     display: block;
-    position: fixed;
-    left: 100%;
-    top: 0;
+    transform-origin: top left;
+    font-family: 'Noto Sans SC','Roboto', sans-serif, sans-serif;
+    /* position: static; */
 }
 
 .topBar {
@@ -110,9 +128,11 @@ body {
     max-width: 700px;
     /* html2canvas不支持文本截断 */
     /* https://github.com/niklasvh/html2canvas/issues/324 */
-    /*text-overflow: ellipsis;*/
-    /*white-space: nowrap;*/
+    /* text-overflow: ellipsis; */
+    /* white-space: nowrap; */
     overflow: hidden;
+    padding-bottom: 8px;
+    padding-top: 8px;
 }
 
 .singleImage {
@@ -184,6 +204,7 @@ body {
     height: 1.25em;
     display: inline-block;
     vertical-align: text-top;
+    margin-top: 5px;
 }
 
 .topBarIcon {
@@ -239,12 +260,12 @@ body {
 }
 
 .commentSend {
-    border: 2px solid #dcdcdc;
-    border-radius: 7px;
+    border: 2px solid #C6C6C6;
+    border-radius: 6px;
     font-size: 36px;
-    color: #dcdcdc;
-    width: 122px;
-    height: 88px;
+    color: #C6C6C6;
+    width: 135px;
+    height: 66px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -297,4 +318,5 @@ body {
     background-color: #fff;
     border: none;
     color: #aaa;
+    border-radius: 6px;
 }

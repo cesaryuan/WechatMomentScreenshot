@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 24.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="89.9px" height="89.9px" viewBox="0 0 89.9 89.9" style="enable-background:new 0 0 89.9 89.9;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:4;}
-</style>
-<ellipse class="st0" cx="45" cy="45.5" rx="43" ry="43.5"/>
-<ellipse cx="30" cy="36" rx="4.9" ry="6.2"/>
-<ellipse cx="60" cy="36" rx="4.9" ry="6.2"/>
-<path class="st0" d="M45,73.3c-14,0-25.4-9.8-25.4-21.8h50.7C70.3,63.5,59,73.3,45,73.3z"/>
+<svg width="89.9" height="89.9" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="enable-background:new 0 0 89.9 89.9;" version="1.1">
+ <style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:6;}</style>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="604" width="1278" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <ellipse stroke-width="0" id="svg_1" ry="41" rx="41" cy="45.5" cx="45" class="st0"/>
+  <ellipse id="svg_2" ry="6" rx="6" cy="36" cx="30"/>
+  <ellipse id="svg_3" ry="6" rx="6" cy="36" cx="60"/>
+  <path id="svg_4" d="m44.845438,71.871434c-12.843297,0 -23.30141,-9.157801 -23.30141,-20.371434l46.511081,0c0,11.213634 -10.366375,20.371434 -23.209672,20.371434z" class="st0"/>
+ </g>
 </svg>

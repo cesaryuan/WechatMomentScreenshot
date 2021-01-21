@@ -1,3 +1,11 @@
+import { toPng, toJpeg, toBlob, toPixelData, toSvg, toCanvas } from 'html-to-image';
+window.toJpeg = toJpeg;
+window.toPng = toPng;
+window.toBlob = toBlob;
+window.toPixelData = toPixelData;
+window.toSvg = toSvg;
+window.toCanvas = toCanvas;
+
 function loadScript(url) {
     var el = document.createElement('script');
     el.src = url;
@@ -11,27 +19,7 @@ function xhrGet(url, callback) {
     xhr.send();
 }
 
-mdui.confirm(''
-        + '<div class="mdui-typo">'
-        +     '<p>'
-        +         '使用本工具<strong>不需要强制关注任何公众号或转发任何内容到朋友圈</strong>。如果你发现有公众号存在类似<strong>“关注○○，发送○○，转发○○到朋友圈领取○○”</strong>的行为，请对此类<strong>诱导行为</strong>进行<strong>投诉</strong>。'
-        +         '<a href="https://mp.weixin.qq.com/cgi-bin/readtemplate?t=business/faq_operation_tmpl#3dot3_3" target="_blank">什么是诱导行为？</a>'
-        +     '</p>'
-        +     '<p>本工具生成的截图，仅可用于<strong>个人应付各类强制要求转发朋友圈的情形</strong>，请勿<strong>批量生成截图</strong>或将截图用于<strong>造谣诽谤、微商宣传</strong>等非法或令人反感的用途，请勿用于商业用途，二次部署请勿删除原作者相关信息。</p>'
-        +     '<p>当你生成截图时，你应该确定你可以接受向他人发送该截图将会带来的后果和影响，否则请不要使用本工具并离开当前页面。</p>'
-        +     '<p>本工具谢绝肖战粉丝使用。<a href="https://w.url.cn/s/AC2atup" target="_blank">#我是普通人,我讨厌肖战#</a></p>'
-        + '</div>',
-    '在开始使用之前……',
-    function () {},
-    function () { location.href = 'about:blank' },
-    {
-        modal: true,
-        closeOnEsc: false,
-        history: false,
-    }
-);
-
-if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) loadScript('https://cdn.jsdelivr.net/gh/TransparentLC/WechatMomentScreenshot/fuckWechat.min.js');
+// if (navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1) loadScript('https://cdn.jsdelivr.net/gh/TransparentLC/WechatMomentScreenshot/fuckWechat.min.js');
 
 if (!window.Promise) loadScript('https://cdn.jsdelivr.net/npm/promise-polyfill/dist/polyfill.min.js');
 
@@ -42,13 +30,13 @@ xhrGet('https://cdn.jsdelivr.net/gh/TransparentLC/WechatMomentScreenshot/emotico
 
 // 读取配置
 var configDefault = {
-    name: 'A 营销号免费广告姬',
-    text: '很实用的教程[微笑]\n需要收集五个赞 谢谢大家啦～(　^ω^)',
+    name: 'Cesaryuan',
+    text: 'Quicker真的很好用啊，大家快来用啊[微笑]',
     location: '',
     app: '',
     height: 1920,
-    uiWhite: false,
-    appIcon: false,
+    uiWhite: true,
+    appIcon: true,
     statusIcon: true,
 };
 var config;
@@ -223,7 +211,9 @@ document.getElementById('configPostTimeMinute').value = date.getMinutes();
 document.getElementById('configCommentDate').valueAsDate = date;
 document.getElementById('configCommentTimeHour').value = date.getHours();
 document.getElementById('configCommentTimeMinute').value = date.getMinutes();
-document.getElementById('configLike').value = Math.floor(20 * Math.random());
+document.getElementById('configLike').value = Math.floor(17 * Math.random()) + 5;
+
+setTimeout(readyFake, 800);
 
 //检验数值是否合法
 document.getElementById('configPostTimeHour').addEventListener('input', function () {
@@ -294,8 +284,72 @@ for (var i = 1; i <= 9; i++) {
     }(i);
 }
 
+for(var e of document.querySelectorAll("textarea, input")){
+    e.addEventListener('input', function () {
+        var fakeWechatMoment = document.getElementById('fakeWechatMoment');
+        fakeWechatMoment.style.transform = "scale(0.4)"
+        readyFake();
+    });
+}
+
 document.getElementById('generate').addEventListener('click', function () {
     // 是否使用7.0以上版本白色界面？
+    readyFake();
+    var fakeWechatMoment = document.getElementById('fakeWechatMoment');
+    fakeWechatMoment.style.transform = "scale(1)"
+    //按钮上的提示
+    document.getElementById('generate').setAttribute('disabled', '');
+    document.getElementById('generate').innerText = '生成中...';
+
+    toCanvas(fakeWechatMoment, {
+        pixelRatio: 1,
+    }).then(function (canvas) {
+        fakeWechatMoment.style.transform = "scale(0.4)";
+        var dURL = canvas.toDataURL();
+        //document.body.replaceWith(canvas);
+        document.getElementById('generated').src = dURL;
+        document.getElementById('save').setAttribute('href', dURL);
+        document.getElementById('save').setAttribute('download', (+new Date) + '.png');
+        (new mdui.Dialog(document.getElementById('generatedPopup'))).open();
+
+        // 保存配置
+        var config = {
+            name: document.getElementById('configName').value,
+            text: document.getElementById('configText').value,
+            location: document.getElementById('configLocation').value,
+            app: document.getElementById('configApp').value,
+            height: parseInt(document.getElementById('configHeight').value),
+            uiWhite: document.getElementById('configUIWhite').checked,
+            appIcon: document.getElementById('configTopBarAppIcons').checked,
+            statusIcon: document.getElementById('configTopBarStatusIcons').checked,
+        };
+        localStorage.setItem('config', JSON.stringify(config));
+
+        if (avatarFile) {
+            var reader = new FileReader;
+            reader.readAsDataURL(avatarFile);
+            reader.onload = function () {
+                localStorage.setItem('avatar', this.result);
+            };
+        }
+    }).catch(function (error) {
+        mdui.alert(''
+            + '<div class="mdui-typo">'
+            +     '<p>错误信息：</p>'
+            +     '<pre>' + error + '</pre>'
+            +     '<p>你可以通过 <a href="https://github.com/TransparentLC/WechatMomentScreenshot/issues" target="_blank">Issue</a> 向作者反馈 BUG～</p>'
+            + '</div>',
+            '生成失败'
+        );
+    }).finally(function () {
+        // document.getElementById('fakeWechatMoment').style.display = 'none';
+
+        document.getElementById('generate').removeAttribute('disabled');
+        document.getElementById('generate').innerText = '生成';
+    });
+});
+
+function readyFake(){
     var useWhiteUI = document.getElementById('configUIWhite').checked;
     if (useWhiteUI) {
         document.getElementById('fakeWechatMoment').classList.add('whiteUI');
@@ -441,52 +495,6 @@ document.getElementById('generate').addEventListener('click', function () {
     var offset = Number(window.getComputedStyle(document.getElementById('topBar')).height.replace('px', '')) + Number(window.getComputedStyle(document.getElementById('header')).height.replace('px', '')) + Number(window.getComputedStyle(document.getElementById('main')).height.replace('px', ''));
     document.getElementById('footer').style.bottom = ((offset < height - Number(window.getComputedStyle(document.getElementById('footer')).height.replace('px', ''))) ? (-height + Number(window.getComputedStyle(document.getElementById('footer')).height.replace('px', '')) + offset) : 0) + 'px';
 
-    //按钮上的提示
-    document.getElementById('generate').setAttribute('disabled', '');
-    document.getElementById('generate').innerText = '生成中...';
 
-    html2canvas(document.getElementById('fakeWechatMoment'), {
-        useCORS: true,
-        scale: 1,
-    }).then(function (canvas) {
-        var dURL = canvas.toDataURL();
-        document.getElementById('generated').src = dURL;
-        document.getElementById('save').setAttribute('href', dURL);
-        document.getElementById('save').setAttribute('download', (+new Date) + '.png');
-        (new mdui.Dialog(document.getElementById('generatedPopup'))).open();
+}
 
-        // 保存配置
-        var config = {
-            name: document.getElementById('configName').value,
-            text: document.getElementById('configText').value,
-            location: document.getElementById('configLocation').value,
-            app: document.getElementById('configApp').value,
-            height: parseInt(document.getElementById('configHeight').value),
-            uiWhite: document.getElementById('configUIWhite').checked,
-            appIcon: document.getElementById('configTopBarAppIcons').checked,
-            statusIcon: document.getElementById('configTopBarStatusIcons').checked,
-        };
-        localStorage.setItem('config', JSON.stringify(config));
-
-        if (avatarFile) {
-            var reader = new FileReader;
-            reader.readAsDataURL(avatarFile);
-            reader.onload = function () {
-                localStorage.setItem('avatar', this.result);
-            };
-        }
-    }).catch(function (error) {
-        mdui.alert(''
-            + '<div class="mdui-typo">'
-            +     '<p>错误信息：</p>'
-            +     '<pre>' + error + '</pre>'
-            +     '<p>你可以通过 <a href="https://github.com/TransparentLC/WechatMomentScreenshot/issues" target="_blank">Issue</a> 向作者反馈 BUG～</p>'
-            + '</div>',
-            '生成失败'
-        );
-    }).finally(function () {
-        // document.getElementById('fakeWechatMoment').style.display = 'none';
-        document.getElementById('generate').removeAttribute('disabled');
-        document.getElementById('generate').innerText = '生成';
-    });
-});
